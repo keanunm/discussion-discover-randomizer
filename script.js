@@ -330,6 +330,8 @@ const resultText = document.getElementById('resultText');
 const multiResults = document.getElementById('multiResults');
 const poolStatus = document.getElementById('poolStatus');
 const randomizeBtn = document.getElementById('randomizeBtn');
+const hideCardBtn = document.getElementById('hideCardBtn');
+const rollDieBtn = document.getElementById('rollDieBtn');
 const noRepeatToggle = document.getElementById('noRepeatToggle');
 const rarityToggle = document.getElementById('rarityToggle');
 const drawCountSelect = document.getElementById('drawCountSelect');
@@ -590,7 +592,22 @@ function pickRandomObject() {
 }
 
 // Event Listeners
-randomizeBtn.addEventListener('click', pickRandomObject);
+randomizeBtn.addEventListener('click', () => {
+  displayCard.classList.remove('secret-hidden');
+  hideCardBtn.textContent = '🙈 Hide Card';
+  pickRandomObject();
+});
+
+hideCardBtn.addEventListener('click', () => {
+  const isHidden = displayCard.classList.toggle('secret-hidden');
+  hideCardBtn.textContent = isHidden ? '👁️ Show Card' : '🙈 Hide Card';
+});
+
+rollDieBtn.addEventListener('click', () => {
+  const roll = Math.floor(Math.random() * 6) + 1;
+  playTickSound();
+  rollDieBtn.textContent = `🎲 Player #${roll}`;
+});
 
 window.addEventListener('keydown', (e) => {
   const tag = document.activeElement?.tagName;
