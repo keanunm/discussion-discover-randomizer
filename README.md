@@ -13,7 +13,7 @@ You can 3D print the role cards for the game using the included [`Cards.3mf`](Ca
 ## Setup
 
 1. Choose one player to be the **Judge**.
-2. Shuffle the role cards ([`Cards.3mf`](Cards.3mf)) and deal one to each player (or use the **Role Card Dealer** on the [Discussion Discover Randomizer website](https://keanunm.github.io/discussion-discover-randomizer/)). Ask all players to look at their card secretly before placing it face down.
+2. Shuffle the role cards ([`Cards.3mf`](Cards.3mf)) and deal one to each player Ask all players to look at their card secretly before placing it face down.
 3. Ask everyone to hide their cards and put their heads down (close their eyes).
 4. The Judge asks the **Impostor** to wake up and silently signal who they are.
 5. Ask the Impostor to hide their card and put their head back down.
