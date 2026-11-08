@@ -41,7 +41,6 @@
     </section>
 
     <section class="display-card" id="displayCard">
-      <div class="rarity-badge hidden" id="rarityBadge">COMMON</div>
       <div class="result-emoji" id="resultEmoji">🎲</div>
       <div class="result-text" id="resultText">Ready to Roll</div>
       <div class="multi-results hidden" id="multiResults"></div>
@@ -65,11 +64,6 @@
           <span>No repeats</span>
         </label>
 
-        <label class="toggle-label" title="Assign random rarity tiers (Common to Legendary) when rolling">
-          <input type="checkbox" id="rarityToggle" checked />
-          <span>Rarity tiers</span>
-        </label>
-
         <label class="select-label">
           <span>Draw:</span>
           <select id="drawCountSelect">
@@ -91,24 +85,6 @@
         </label>
       </div>
     </div>
-
-    <section class="panel role-dealer-panel">
-      <div class="panel-header">
-        <h2>Role Cards (<a href="Cards.3mf" download class="text-btn" title="Download 3D printable role cards">Download Cards.3mf</a>)</h2>
-        <div class="role-controls">
-          <label class="select-label">
-            <span>Players (excl. Judge):</span>
-            <select id="playerCountSelect">
-              <option value="3">3 Players (4 total)</option>
-              <option value="4" selected>4 Players (5 total)</option>
-              <option value="5">5 Players (6 total)</option>
-            </select>
-          </label>
-          <button id="dealRolesBtn" class="secondary-btn">Deal Roles</button>
-        </div>
-      </div>
-      <div id="roleCardsContainer" class="role-cards-grid hidden"></div>
-    </section>
 
     <section class="panel">
       <div class="panel-header">

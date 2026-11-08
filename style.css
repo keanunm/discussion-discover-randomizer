@@ -9,12 +9,6 @@
   --accent-glow: rgba(99, 102, 241, 0.4);
   --danger: #ef4444;
   --success: #22c55e;
-
-  --rarity-common: #94a3b8;
-  --rarity-uncommon: #22c55e;
-  --rarity-rare: #3b82f6;
-  --rarity-epic: #a855f7;
-  --rarity-legendary: #f59e0b;
 }
 
 * {
@@ -105,21 +99,8 @@ kbd {
 }
 
 .display-card.pop {
+  border-color: var(--accent);
   transform: scale(1.03);
-}
-
-.rarity-badge {
-  display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.2rem 0.65rem;
-  border-radius: 999px;
-  margin-bottom: 0.65rem;
-  background: rgba(148, 163, 184, 0.15);
-  color: var(--rarity-common);
-  border: 1px solid var(--rarity-common);
 }
 
 .result-emoji {
@@ -158,13 +139,6 @@ kbd {
   display: flex;
   align-items: center;
   gap: 0.45rem;
-}
-
-.multi-rarity-dot {
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 50%;
-  display: inline-block;
 }
 
 .pool-status {

@@ -115,13 +115,10 @@ const PRESETS = {
     'Submarine',
     'Hoverboard',
     'Drone',
-    'arcade Cabinet',
+    'Arcade Cabinet',
     'Battery Pack'
   ]
 };
-
-// Fix capitalization on Arcade Cabinet
-PRESETS.tech[14] = 'Arcade Cabinet';
 
 // Default list combines all 105 objects across categories
 const DEFAULT_ITEMS = [
@@ -132,25 +129,6 @@ const DEFAULT_ITEMS = [
   ...PRESETS.tools,
   ...PRESETS.tech
 ];
-
-// Rarity Tiers with weighted probabilities
-const RARITY_TIERS = [
-  { name: 'Common', weight: 50, color: '#94a3b8' },
-  { name: 'Uncommon', weight: 25, color: '#22c55e' },
-  { name: 'Rare', weight: 14, color: '#3b82f6' },
-  { name: 'Epic', weight: 8, color: '#a855f7' },
-  { name: 'Legendary', weight: 3, color: '#f59e0b' }
-];
-
-function rollRarity() {
-  const totalWeight = RARITY_TIERS.reduce((sum, r) => sum + r.weight, 0);
-  let rand = Math.random() * totalWeight;
-  for (const tier of RARITY_TIERS) {
-    if (rand < tier.weight) return tier;
-    rand -= tier.weight;
-  }
-  return RARITY_TIERS[0];
-}
 
 // Emoji lookup for objects
 const EMOJI_MAP = {
@@ -305,15 +283,12 @@ function playTickSound() {
   playTone(320 + Math.random() * 180, 40, 'triangle', 0.06);
 }
 
-function playWinSound(isRareOrHigher = false) {
+function playWinSound() {
   playTone(523.25, 110, 'sine', 0.1);
   setTimeout(() => playTone(659.25, 160, 'sine', 0.12), 85);
-  if (isRareOrHigher) {
-    setTimeout(() => playTone(783.99, 220, 'sine', 0.14), 170);
-  }
 }
 
-// State (v3 storage key so 105-item list loads immediately)
+// State
 const STORAGE_KEY = 'gameRandomizerItems_v3';
 let items = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [...DEFAULT_ITEMS];
 let remainingPool = [...items];
@@ -324,7 +299,6 @@ let totalRolls = 0;
 
 // DOM Elements
 const displayCard = document.getElementById('displayCard');
-const rarityBadge = document.getElementById('rarityBadge');
 const resultEmoji = document.getElementById('resultEmoji');
 const resultText = document.getElementById('resultText');
 const multiResults = document.getElementById('multiResults');
@@ -333,7 +307,6 @@ const randomizeBtn = document.getElementById('randomizeBtn');
 const hideCardBtn = document.getElementById('hideCardBtn');
 const rollDieBtn = document.getElementById('rollDieBtn');
 const noRepeatToggle = document.getElementById('noRepeatToggle');
-const rarityToggle = document.getElementById('rarityToggle');
 const drawCountSelect = document.getElementById('drawCountSelect');
 const speedSelect = document.getElementById('speedSelect');
 const copyResultBtn = document.getElementById('copyResultBtn');
@@ -358,9 +331,6 @@ const historyList = document.getElementById('historyList');
 const rollCount = document.getElementById('rollCount');
 const clearHistoryBtn = document.getElementById('clearHistoryBtn');
 const presetButtons = document.querySelectorAll('.preset-btn');
-const playerCountSelect = document.getElementById('playerCountSelect');
-const dealRolesBtn = document.getElementById('dealRolesBtn');
-const roleCardsContainer = document.getElementById('roleCardsContainer');
 
 function saveItems() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
@@ -437,7 +407,7 @@ function removeItem(index) {
   renderItems();
 }
 
-function addHistoryEntry(drawnResults) {
+function addHistoryEntry(winners) {
   const emptyMsg = historyList.querySelector('.empty-msg');
   if (emptyMsg) emptyMsg.remove();
 
@@ -448,12 +418,7 @@ function addHistoryEntry(drawnResults) {
   li.className = 'history-item';
 
   const nameSpan = document.createElement('span');
-  const formatted = drawnResults
-    .map((r) => {
-      const rarityPrefix = r.rarity ? `[${r.rarity.name}] ` : '';
-      return `${rarityPrefix}${getEmojiFor(r.name)} ${r.name}`;
-    })
-    .join(', ');
+  const formatted = winners.map((name) => `${getEmojiFor(name)} ${name}`).join(', ');
   nameSpan.textContent = `#${totalRolls} — ${formatted}`;
 
   const timeSpan = document.createElement('span');
@@ -469,67 +434,35 @@ function addHistoryEntry(drawnResults) {
   historyList.prepend(li);
 }
 
-function showFinalWinners(drawnResults) {
-  lastPickedSet = new Set(drawnResults.map((r) => r.name));
-  lastResultString = drawnResults
-    .map((r) => (r.rarity ? `${r.rarity.name} ${r.name}` : r.name))
-    .join(', ');
+function showFinalWinners(winners) {
+  lastPickedSet = new Set(winners);
+  lastResultString = winners.join(', ');
 
-  const useRarity = rarityToggle.checked;
-
-  if (drawnResults.length === 1) {
-    const single = drawnResults[0];
+  if (winners.length === 1) {
     multiResults.classList.add('hidden');
     resultEmoji.classList.remove('hidden');
     resultText.classList.remove('hidden');
-    resultEmoji.textContent = getEmojiFor(single.name);
-    resultText.textContent = single.name;
-
-    if (useRarity && single.rarity) {
-      rarityBadge.classList.remove('hidden');
-      rarityBadge.textContent = single.rarity.name;
-      rarityBadge.style.color = single.rarity.color;
-      rarityBadge.style.borderColor = single.rarity.color;
-      rarityBadge.style.backgroundColor = `${single.rarity.color}22`;
-      displayCard.style.borderColor = single.rarity.color;
-    } else {
-      rarityBadge.classList.add('hidden');
-      displayCard.style.borderColor = '';
-    }
+    resultEmoji.textContent = getEmojiFor(winners[0]);
+    resultText.textContent = winners[0];
   } else {
-    rarityBadge.classList.add('hidden');
     resultEmoji.classList.add('hidden');
     resultText.classList.add('hidden');
     multiResults.classList.remove('hidden');
     multiResults.innerHTML = '';
-    displayCard.style.borderColor = '';
 
-    drawnResults.forEach((r) => {
+    winners.forEach((name) => {
       const div = document.createElement('div');
       div.className = 'multi-card';
-      if (useRarity && r.rarity) {
-        div.style.borderColor = r.rarity.color;
-        const dot = document.createElement('span');
-        dot.className = 'multi-rarity-dot';
-        dot.style.backgroundColor = r.rarity.color;
-        dot.title = r.rarity.name;
-        div.appendChild(dot);
-      }
-      const text = document.createElement('span');
-      text.textContent = `${getEmojiFor(r.name)} ${r.name}`;
-      div.appendChild(text);
+      div.textContent = `${getEmojiFor(name)} ${name}`;
       multiResults.appendChild(div);
     });
   }
 
   displayCard.classList.add('pop');
-  const hasHighRarity = drawnResults.some(
-    (r) => r.rarity && ['Rare', 'Epic', 'Legendary'].includes(r.rarity.name)
-  );
-  playWinSound(hasHighRarity);
+  playWinSound();
   isRolling = false;
   randomizeBtn.disabled = false;
-  addHistoryEntry(drawnResults);
+  addHistoryEntry(winners);
   renderItems();
 }
 
@@ -537,8 +470,7 @@ function pickRandomObject() {
   if (isRolling || items.length === 0) return;
 
   const drawCount = Math.min(parseInt(drawCountSelect.value, 10) || 1, items.length);
-  const useRarity = rarityToggle.checked;
-  const drawnResults = [];
+  const winners = [];
 
   if (noRepeatToggle.checked) {
     for (let i = 0; i < drawCount; i++) {
@@ -546,20 +478,14 @@ function pickRandomObject() {
         remainingPool = [...items];
       }
       const idx = Math.floor(Math.random() * remainingPool.length);
-      drawnResults.push({
-        name: remainingPool[idx],
-        rarity: useRarity ? rollRarity() : null
-      });
+      winners.push(remainingPool[idx]);
       remainingPool.splice(idx, 1);
     }
   } else {
     const tempPool = [...items];
     for (let i = 0; i < drawCount; i++) {
       const idx = Math.floor(Math.random() * tempPool.length);
-      drawnResults.push({
-        name: tempPool[idx],
-        rarity: useRarity ? rollRarity() : null
-      });
+      winners.push(tempPool[idx]);
       tempPool.splice(idx, 1);
     }
   }
@@ -568,13 +494,12 @@ function pickRandomObject() {
   const speed = speedSelect.value;
 
   if (speed === 'instant') {
-    showFinalWinners(drawnResults);
+    showFinalWinners(winners);
     return;
   }
 
   isRolling = true;
   randomizeBtn.disabled = true;
-  rarityBadge.classList.add('hidden');
   multiResults.classList.add('hidden');
   resultEmoji.classList.remove('hidden');
   resultText.classList.remove('hidden');
@@ -592,7 +517,7 @@ function pickRandomObject() {
 
     if (ticks >= maxTicks) {
       clearInterval(interval);
-      showFinalWinners(drawnResults);
+      showFinalWinners(winners);
     }
   }, tickInterval);
 }
@@ -619,6 +544,8 @@ window.addEventListener('keydown', (e) => {
   const tag = document.activeElement?.tagName;
   if (e.code === 'Space' && tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'BUTTON' && tag !== 'SELECT') {
     e.preventDefault();
+    displayCard.classList.remove('secret-hidden');
+    hideCardBtn.textContent = '🙈 Hide Card';
     pickRandomObject();
   }
 });
@@ -731,52 +658,6 @@ clearHistoryBtn.addEventListener('click', () => {
   totalRolls = 0;
   rollCount.textContent = '0';
   historyList.innerHTML = '<li class="empty-msg">No rolls yet.</li>';
-});
-
-// Digital Role Card Dealer (1 Impostor, rest Good Guys)
-dealRolesBtn.addEventListener('click', () => {
-  const count = parseInt(playerCountSelect.value, 10) || 4;
-  const impostorIndex = Math.floor(Math.random() * count);
-  roleCardsContainer.innerHTML = '';
-  roleCardsContainer.classList.remove('hidden');
-
-  for (let i = 0; i < count; i++) {
-    const isImpostor = i === impostorIndex;
-    const card = document.createElement('div');
-    card.className = 'role-card';
-
-    const title = document.createElement('div');
-    title.className = 'role-card-title';
-    title.textContent = `Player ${i + 1}`;
-
-    const status = document.createElement('div');
-    status.className = 'role-card-status';
-    status.textContent = 'Tap to Peek';
-
-    let state = 'hidden'; // hidden -> revealed -> done
-    card.addEventListener('click', () => {
-      if (state === 'hidden') {
-        state = 'revealed';
-        card.classList.add(isImpostor ? 'revealed-impostor' : 'revealed-good');
-        status.textContent = isImpostor ? '🕵️ IMPOSTOR' : '😇 GOOD GUY';
-      } else if (state === 'revealed') {
-        state = 'done';
-        card.classList.remove('revealed-impostor', 'revealed-good');
-        card.classList.add('seen');
-        status.textContent = 'Card Hidden ✓';
-      } else {
-        // Allow re-peeking if tapped again
-        state = 'revealed';
-        card.classList.remove('seen');
-        card.classList.add(isImpostor ? 'revealed-impostor' : 'revealed-good');
-        status.textContent = isImpostor ? '🕵️ IMPOSTOR' : '😇 GOOD GUY';
-      }
-    });
-
-    card.appendChild(title);
-    card.appendChild(status);
-    roleCardsContainer.appendChild(card);
-  }
 });
 
 // Initial render
