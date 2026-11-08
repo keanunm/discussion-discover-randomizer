@@ -337,6 +337,9 @@ const rarityToggle = document.getElementById('rarityToggle');
 const drawCountSelect = document.getElementById('drawCountSelect');
 const speedSelect = document.getElementById('speedSelect');
 const copyResultBtn = document.getElementById('copyResultBtn');
+const rulesToggleBtn = document.getElementById('rulesToggleBtn');
+const closeRulesBtn = document.getElementById('closeRulesBtn');
+const rulesPanel = document.getElementById('rulesPanel');
 const soundToggleBtn = document.getElementById('soundToggleBtn');
 const appendPresetToggle = document.getElementById('appendPresetToggle');
 const itemCount = document.getElementById('itemCount');
@@ -624,6 +627,14 @@ copyResultBtn.addEventListener('click', () => {
   setTimeout(() => {
     copyResultBtn.textContent = '📋';
   }, 1000);
+});
+
+rulesToggleBtn.addEventListener('click', () => {
+  rulesPanel.classList.toggle('hidden');
+});
+
+closeRulesBtn.addEventListener('click', () => {
+  rulesPanel.classList.add('hidden');
 });
 
 soundToggleBtn.addEventListener('click', () => {

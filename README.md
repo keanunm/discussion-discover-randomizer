@@ -1,5 +1,7 @@
 # Discussion Discover
 
+**Live Randomizer Website:** https://keanunm.github.io/discussion-discover-randomizer/
+
 **Players:** 4-6 players  
 **Roles:** 1 Judge, 1 Impostor, Remaining players are Good Guys
 

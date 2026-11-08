@@ -12,6 +12,9 @@
       <div class="header-top">
         <h1>Discussion Discover Randomizer</h1>
         <div class="header-actions">
+          <button id="rulesToggleBtn" class="icon-btn" title="Show/Hide Game Rules">
+            📖 Rules
+          </button>
           <button id="copyResultBtn" class="icon-btn" title="Copy current result to clipboard">
             📋
           </button>
@@ -20,8 +23,22 @@
           </button>
         </div>
       </div>
-      <p class="subtitle">Press the button or hit <kbd>Space</kbd> to roll a random object!</p>
+      <p class="subtitle">Press the button or hit <kbd>Space</kbd> to roll a secret object!</p>
     </header>
+
+    <section id="rulesPanel" class="panel rules-panel hidden">
+      <div class="panel-header">
+        <h2>How to Play: Discussion Discover (4–6 Players)</h2>
+        <button id="closeRulesBtn" class="text-btn">Close</button>
+      </div>
+      <ol class="rules-list">
+        <li><strong>Setup:</strong> Choose 1 <strong>Judge</strong>. Deal role cards to everyone else (1 <strong>Impostor</strong>, remaining are <strong>Good Guys</strong>). Everyone looks at their card, then puts their head down.</li>
+        <li><strong>Impostor Check:</strong> The Judge asks the Impostor to wake up, silently signal who they are, and put their head back down.</li>
+        <li><strong>Discover the Object:</strong> Roll a random object here! The Judge taps each Good Guy one by one to look at the object, then lie back down. <em>Do not show the object to the Impostor!</em></li>
+        <li><strong>Discussion Phase:</strong> Hide the card, wake everyone up, and click <strong>Roll Die</strong> to pick the starting player. Going clockwise, everyone gives 1 description (not too obvious, not too vague).</li>
+        <li><strong>Voting Phase:</strong> Vote on who gave the weirdest description (no skipping). Majority vote eliminates that player. If they were the Impostor, <strong>Good Guys win!</strong> If they were a Good Guy, redo the round. If only 1 Impostor and 1 Good Guy remain, the <strong>Impostor wins!</strong></li>
+      </ol>
+    </section>
 
     <section class="display-card" id="displayCard">
       <div class="rarity-badge hidden" id="rarityBadge">COMMON</div>
