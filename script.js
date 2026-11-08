@@ -358,6 +358,9 @@ const historyList = document.getElementById('historyList');
 const rollCount = document.getElementById('rollCount');
 const clearHistoryBtn = document.getElementById('clearHistoryBtn');
 const presetButtons = document.querySelectorAll('.preset-btn');
+const playerCountSelect = document.getElementById('playerCountSelect');
+const dealRolesBtn = document.getElementById('dealRolesBtn');
+const roleCardsContainer = document.getElementById('roleCardsContainer');
 
 function saveItems() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
@@ -728,6 +731,52 @@ clearHistoryBtn.addEventListener('click', () => {
   totalRolls = 0;
   rollCount.textContent = '0';
   historyList.innerHTML = '<li class="empty-msg">No rolls yet.</li>';
+});
+
+// Digital Role Card Dealer (1 Impostor, rest Good Guys)
+dealRolesBtn.addEventListener('click', () => {
+  const count = parseInt(playerCountSelect.value, 10) || 4;
+  const impostorIndex = Math.floor(Math.random() * count);
+  roleCardsContainer.innerHTML = '';
+  roleCardsContainer.classList.remove('hidden');
+
+  for (let i = 0; i < count; i++) {
+    const isImpostor = i === impostorIndex;
+    const card = document.createElement('div');
+    card.className = 'role-card';
+
+    const title = document.createElement('div');
+    title.className = 'role-card-title';
+    title.textContent = `Player ${i + 1}`;
+
+    const status = document.createElement('div');
+    status.className = 'role-card-status';
+    status.textContent = 'Tap to Peek';
+
+    let state = 'hidden'; // hidden -> revealed -> done
+    card.addEventListener('click', () => {
+      if (state === 'hidden') {
+        state = 'revealed';
+        card.classList.add(isImpostor ? 'revealed-impostor' : 'revealed-good');
+        status.textContent = isImpostor ? '🕵️ IMPOSTOR' : '😇 GOOD GUY';
+      } else if (state === 'revealed') {
+        state = 'done';
+        card.classList.remove('revealed-impostor', 'revealed-good');
+        card.classList.add('seen');
+        status.textContent = 'Card Hidden ✓';
+      } else {
+        // Allow re-peeking if tapped again
+        state = 'revealed';
+        card.classList.remove('seen');
+        card.classList.add(isImpostor ? 'revealed-impostor' : 'revealed-good');
+        status.textContent = isImpostor ? '🕵️ IMPOSTOR' : '😇 GOOD GUY';
+      }
+    });
+
+    card.appendChild(title);
+    card.appendChild(status);
+    roleCardsContainer.appendChild(card);
+  }
 });
 
 // Initial render

@@ -8,7 +8,7 @@
 ## Setup
 
 1. Choose one player to be the **Judge**.
-2. Deal everyone a role card. Ask all players to look at their card secretly before placing it face down.
+2. Deal everyone a role card (or use the **Role Card Dealer** on the [Discussion Discover Randomizer website](https://keanunm.github.io/discussion-discover-randomizer/)). Ask all players to look at their card secretly before placing it face down.
 3. Ask everyone to hide their cards and put their heads down (close their eyes).
 4. The Judge asks the **Impostor** to wake up and silently signal who they are.
 5. Ask the Impostor to hide their card and put their head back down.
@@ -22,7 +22,7 @@
 ## Discussion Phase
 
 1. The Judge asks everyone to wake up.
-2. Roll a die to pick a random starting player. Going clockwise one by one, each player gives a single description of what the object is like.
+2. Roll a die (or click **Roll Die** on the [Discussion Discover Randomizer website](https://keanunm.github.io/discussion-discover-randomizer/)) to pick a random starting player. Going clockwise one by one, each player gives a single description of what the object is like.
    - Your description should not be too obvious (or the Impostor will figure out the object), nor too vague (or the other players will think you are the Impostor).
 
 ## Voting Phase

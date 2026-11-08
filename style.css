@@ -493,6 +493,61 @@ kbd {
   color: var(--text);
 }
 
+.role-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.role-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 0.65rem;
+}
+
+.role-card {
+  background: var(--bg);
+  border: 2px solid var(--card-border);
+  border-radius: 0.8rem;
+  padding: 0.9rem 0.6rem;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  transition: border-color 0.15s, transform 0.12s;
+}
+
+.role-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.role-card.revealed-good {
+  border-color: var(--success);
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.role-card.revealed-impostor {
+  border-color: var(--danger);
+  background: rgba(239, 68, 68, 0.15);
+}
+
+.role-card.seen {
+  opacity: 0.55;
+}
+
+.role-card-title {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 0.3rem;
+}
+
+.role-card-status {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
 .empty-msg {
   color: var(--text-muted);
   font-size: 0.9rem;
