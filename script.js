@@ -289,8 +289,14 @@ function playWinSound() {
 }
 
 // State
-const STORAGE_KEY = 'gameRandomizerItems_v3';
-let items = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [...DEFAULT_ITEMS];
+const STORAGE_KEY = 'gameRandomizerItems_v4';
+let items;
+try {
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  items = Array.isArray(saved) && saved.length > 0 ? saved : [...DEFAULT_ITEMS];
+} catch {
+  items = [...DEFAULT_ITEMS];
+}
 let remainingPool = [...items];
 let lastPickedSet = new Set();
 let lastResultString = '';
@@ -523,18 +529,18 @@ function pickRandomObject() {
 }
 
 // Event Listeners
-randomizeBtn.addEventListener('click', () => {
-  displayCard.classList.remove('secret-hidden');
-  hideCardBtn.textContent = '🙈 Hide Card';
+randomizeBtn?.addEventListener('click', () => {
+  displayCard?.classList.remove('secret-hidden');
+  if (hideCardBtn) hideCardBtn.textContent = '🙈 Hide Card';
   pickRandomObject();
 });
 
-hideCardBtn.addEventListener('click', () => {
-  const isHidden = displayCard.classList.toggle('secret-hidden');
+hideCardBtn?.addEventListener('click', () => {
+  const isHidden = displayCard?.classList.toggle('secret-hidden');
   hideCardBtn.textContent = isHidden ? '👁️ Show Card' : '🙈 Hide Card';
 });
 
-rollDieBtn.addEventListener('click', () => {
+rollDieBtn?.addEventListener('click', () => {
   const roll = Math.floor(Math.random() * 6) + 1;
   playTickSound();
   rollDieBtn.textContent = `🎲 Player #${roll}`;
@@ -544,13 +550,13 @@ window.addEventListener('keydown', (e) => {
   const tag = document.activeElement?.tagName;
   if (e.code === 'Space' && tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'BUTTON' && tag !== 'SELECT') {
     e.preventDefault();
-    displayCard.classList.remove('secret-hidden');
-    hideCardBtn.textContent = '🙈 Hide Card';
+    displayCard?.classList.remove('secret-hidden');
+    if (hideCardBtn) hideCardBtn.textContent = '🙈 Hide Card';
     pickRandomObject();
   }
 });
 
-copyResultBtn.addEventListener('click', () => {
+copyResultBtn?.addEventListener('click', () => {
   const textToCopy = lastResultString || resultText.textContent;
   navigator.clipboard?.writeText(textToCopy);
   copyResultBtn.textContent = '✅';
@@ -559,20 +565,20 @@ copyResultBtn.addEventListener('click', () => {
   }, 1000);
 });
 
-rulesToggleBtn.addEventListener('click', () => {
-  rulesPanel.classList.toggle('hidden');
+rulesToggleBtn?.addEventListener('click', () => {
+  rulesPanel?.classList.toggle('hidden');
 });
 
-closeRulesBtn.addEventListener('click', () => {
-  rulesPanel.classList.add('hidden');
+closeRulesBtn?.addEventListener('click', () => {
+  rulesPanel?.classList.add('hidden');
 });
 
-soundToggleBtn.addEventListener('click', () => {
+soundToggleBtn?.addEventListener('click', () => {
   soundEnabled = !soundEnabled;
   soundToggleBtn.textContent = soundEnabled ? '🔊' : '🔇';
 });
 
-noRepeatToggle.addEventListener('change', () => {
+noRepeatToggle?.addEventListener('change', () => {
   remainingPool = [...items];
   renderItems();
 });
@@ -582,7 +588,7 @@ presetButtons.forEach((btn) => {
     const presetKey = btn.dataset.preset;
     const newPack = presetKey === 'all' ? [...DEFAULT_ITEMS] : [...(PRESETS[presetKey] || [])];
 
-    if (appendPresetToggle.checked && presetKey !== 'all') {
+    if (appendPresetToggle?.checked && presetKey !== 'all') {
       const existingSet = new Set(items);
       newPack.forEach((obj) => {
         if (!existingSet.has(obj)) {
@@ -601,7 +607,7 @@ presetButtons.forEach((btn) => {
   });
 });
 
-shufflePoolBtn.addEventListener('click', () => {
+shufflePoolBtn?.addEventListener('click', () => {
   for (let i = items.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [items[i], items[j]] = [items[j], items[i]];
@@ -610,18 +616,18 @@ shufflePoolBtn.addEventListener('click', () => {
   renderItems();
 });
 
-addItemForm.addEventListener('submit', (e) => {
+addItemForm?.addEventListener('submit', (e) => {
   e.preventDefault();
   addItemsFromString(newItemInput.value);
   newItemInput.value = '';
 });
 
-bulkEditBtn.addEventListener('click', () => {
+bulkEditBtn?.addEventListener('click', () => {
   bulkTextarea.value = items.join(', ');
   bulkEditContainer.classList.toggle('hidden');
 });
 
-saveBulkBtn.addEventListener('click', () => {
+saveBulkBtn?.addEventListener('click', () => {
   const updated = bulkTextarea.value
     .split(/[\n,]+/)
     .map((s) => s.trim())
@@ -634,11 +640,11 @@ saveBulkBtn.addEventListener('click', () => {
   bulkEditContainer.classList.add('hidden');
 });
 
-cancelBulkBtn.addEventListener('click', () => {
+cancelBulkBtn?.addEventListener('click', () => {
   bulkEditContainer.classList.add('hidden');
 });
 
-clearPoolBtn.addEventListener('click', () => {
+clearPoolBtn?.addEventListener('click', () => {
   items = [];
   remainingPool = [];
   lastPickedSet.clear();
@@ -646,7 +652,7 @@ clearPoolBtn.addEventListener('click', () => {
   renderItems();
 });
 
-resetDefaultBtn.addEventListener('click', () => {
+resetDefaultBtn?.addEventListener('click', () => {
   items = [...DEFAULT_ITEMS];
   remainingPool = [...items];
   lastPickedSet.clear();
@@ -654,7 +660,7 @@ resetDefaultBtn.addEventListener('click', () => {
   renderItems();
 });
 
-clearHistoryBtn.addEventListener('click', () => {
+clearHistoryBtn?.addEventListener('click', () => {
   totalRolls = 0;
   rollCount.textContent = '0';
   historyList.innerHTML = '<li class="empty-msg">No rolls yet.</li>';
