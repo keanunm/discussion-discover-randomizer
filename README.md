@@ -1,23 +1,28 @@
 # Discussion Discover
 
-**Live Randomizer Website:** https://keanunm.github.io/discussion-discover-randomizer/
+**Live Randomizer Website:** https://keanunm.github.io/discussion-discover-randomizer/  
+**3D Printable Role Cards:** [Download Cards.3mf](Cards.3mf)
 
 **Players:** 4-6 players  
 **Roles:** 1 Judge, 1 Impostor, Remaining players are Good Guys
 
+## 3D Printing the Cards
+
+You can 3D print the role cards for the game using the included [`Cards.3mf`](Cards.3mf) file in this repository (or use the digital **Role Card Dealer** built into the website).
+
 ## Setup
 
 1. Choose one player to be the **Judge**.
-2. Deal everyone a role card (or use the **Role Card Dealer** on the [Discussion Discover Randomizer website](https://keanunm.github.io/discussion-discover-randomizer/)). Ask all players to look at their card secretly before placing it face down.
+2. Shuffle the role cards ([`Cards.3mf`](Cards.3mf)) and deal one to each player (or use the **Role Card Dealer** on the [Discussion Discover Randomizer website](https://keanunm.github.io/discussion-discover-randomizer/)). Ask all players to look at their card secretly before placing it face down.
 3. Ask everyone to hide their cards and put their heads down (close their eyes).
 4. The Judge asks the **Impostor** to wake up and silently signal who they are.
 5. Ask the Impostor to hide their card and put their head back down.
 
-## Discovering the Card
+## Discovering the Object
 
-1. Shuffle the big blue stack of object cards, or open the [**Discussion Discover Randomizer** (https://keanunm.github.io/discussion-discover-randomizer/)](https://keanunm.github.io/discussion-discover-randomizer/) and click **Randomize Object!** to draw a secret object.
-2. The Judge taps each player one by one (except the Impostor) to wake up and see what the object card is. Once a player has seen it, they put their head back down.
-3. **Important:** Do **not** show the card to the Impostor (if using the website, click **Hide Card** before waking everyone up).
+1. The Judge opens the [**Discussion Discover Randomizer** (https://keanunm.github.io/discussion-discover-randomizer/)](https://keanunm.github.io/discussion-discover-randomizer/) and clicks **Randomize Object!** to generate the secret object for the round.
+2. The Judge taps each player one by one (except the Impostor) to wake up and see what the object on the screen is. Once a player has seen it, they put their head back down.
+3. **Important:** Do **not** show the secret object to the Impostor. Click **Hide Card** on the website before waking everyone up.
 
 ## Discussion Phase
 
