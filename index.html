@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Discussion Discover Randomizer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <header>
+      <div class="header-top">
+        <h1>Discussion Discover Randomizer</h1>
+        <div class="header-actions">
+          <button id="copyResultBtn" class="icon-btn" title="Copy current result to clipboard">
+            📋
+          </button>
+          <button id="soundToggleBtn" class="icon-btn" title="Toggle Sound Effects" aria-label="Toggle Sound Effects">
+            🔊
+          </button>
+        </div>
+      </div>
+      <p class="subtitle">Press the button or hit <kbd>Space</kbd> to roll a random object!</p>
+    </header>
+
+    <section class="display-card" id="displayCard">
+      <div class="rarity-badge hidden" id="rarityBadge">COMMON</div>
+      <div class="result-emoji" id="resultEmoji">🎲</div>
+      <div class="result-text" id="resultText">Ready to Roll</div>
+      <div class="multi-results hidden" id="multiResults"></div>
+      <div class="pool-status" id="poolStatus"></div>
+    </section>
+
+    <div class="controls">
+      <button id="randomizeBtn" class="primary-btn">Randomize!</button>
+
+      <div class="options-bar">
+        <label class="toggle-label" title="Do not repeat objects until every object in the pool has been drawn">
+          <input type="checkbox" id="noRepeatToggle" />
+          <span>No repeats</span>
+        </label>
+
+        <label class="toggle-label" title="Assign random rarity tiers (Common to Legendary) when rolling">
+          <input type="checkbox" id="rarityToggle" checked />
+          <span>Rarity tiers</span>
+        </label>
+
+        <label class="select-label">
+          <span>Draw:</span>
+          <select id="drawCountSelect">
+            <option value="1" selected>1 Object</option>
+            <option value="2">2 Objects</option>
+            <option value="3">3 Objects</option>
+            <option value="5">5 Objects</option>
+            <option value="10">10 Objects</option>
+          </select>
+        </label>
+
+        <label class="select-label">
+          <span>Speed:</span>
+          <select id="speedSelect">
+            <option value="normal" selected>Normal</option>
+            <option value="fast">Fast</option>
+            <option value="instant">Instant</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <section class="panel">
+      <div class="panel-header">
+        <h2>Preset Packs (100+ Objects)</h2>
+        <label class="toggle-label small-toggle" title="When checked, clicking a preset adds to your current list instead of replacing it">
+          <input type="checkbox" id="appendPresetToggle" />
+          <span>Mix / Append</span>
+        </label>
+      </div>
+      <div class="preset-buttons">
+        <button class="preset-btn" data-preset="all">🌟 All Objects (105)</button>
+        <button class="preset-btn" data-preset="starter">🎯 Original 4</button>
+        <button class="preset-btn" data-preset="food">🍎 Food & Fruit</button>
+        <button class="preset-btn" data-preset="furniture">🛋️ Furniture & Home</button>
+        <button class="preset-btn" data-preset="loot">⚔️ RPG & Loot</button>
+        <button class="preset-btn" data-preset="nature">🌲 Nature & Animals</button>
+        <button class="preset-btn" data-preset="tools">🔧 Tools & Everyday</button>
+        <button class="preset-btn" data-preset="tech">💻 Tech & Vehicles</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <h2>Object Pool (<span id="itemCount">0</span>)</h2>
+        <div class="panel-actions">
+          <button id="shufflePoolBtn" class="text-btn" title="Shuffle display order">Shuffle</button>
+          <button id="bulkEditBtn" class="text-btn" title="Edit list as text">Bulk Edit</button>
+          <button id="clearPoolBtn" class="text-btn" title="Remove all items">Clear All</button>
+          <button id="resetDefaultBtn" class="text-btn" title="Restore default list">Reset</button>
+        </div>
+      </div>
+
+      <form id="addItemForm" class="add-form">
+        <input
+          type="text"
+          id="newItemInput"
+          placeholder="Add object (or comma-separated list)..."
+          autocomplete="off"
+        />
+        <button type="submit" class="secondary-btn">Add</button>
+      </form>
+
+      <div id="bulkEditContainer" class="bulk-edit hidden">
+        <textarea
+          id="bulkTextarea"
+          rows="5"
+          placeholder="Enter objects separated by commas or new lines..."
+        ></textarea>
+        <div class="bulk-actions">
+          <button id="saveBulkBtn" class="secondary-btn">Save List</button>
+          <button id="cancelBulkBtn" class="text-btn">Cancel</button>
+        </div>
+      </div>
+
+      <ul id="itemList" class="item-list"></ul>
+    </section>
+
+    <section class="panel history-panel">
+      <div class="panel-header">
+        <h2>Recent Rolls (<span id="rollCount">0</span>)</h2>
+        <button id="clearHistoryBtn" class="text-btn">Clear</button>
+      </div>
+      <ul id="historyList" class="history-list">
+        <li class="empty-msg">No rolls yet.</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
