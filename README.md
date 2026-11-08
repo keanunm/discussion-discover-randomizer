@@ -15,9 +15,9 @@
 
 ## Discovering the Card
 
-1. Shuffle the big blue stack of object cards (or use the **Discussion Discover Randomizer** website to generate a secret object).
+1. Shuffle the big blue stack of object cards, or open the [**Discussion Discover Randomizer** (https://keanunm.github.io/discussion-discover-randomizer/)](https://keanunm.github.io/discussion-discover-randomizer/) and click **Randomize Object!** to draw a secret object.
 2. The Judge taps each player one by one (except the Impostor) to wake up and see what the object card is. Once a player has seen it, they put their head back down.
-3. **Important:** Do **not** show the card to the Impostor.
+3. **Important:** Do **not** show the card to the Impostor (if using the website, click **Hide Card** before waking everyone up).
 
 ## Discussion Phase
 
